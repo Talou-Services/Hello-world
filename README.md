@@ -1,2 +1,4 @@
 # Hello-world
-My fiirst repository
+
+Hi there,
+I'm learning how to use GthHub
