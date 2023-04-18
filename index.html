@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Inscription</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        function validateForm() {
+            var code = document.forms["inscription"]["code"].value;
+            var prenom = document.forms["inscription"]["prenom"].value;
+            var whatsapp = document.forms["inscription"]["whatsapp"].value;
+            var region = document.forms["inscription"]["region"].value;
+            var ville = document.forms["inscription"]["ville"].value;
+
+            if (code == "" || prenom == "" || whatsapp == "" || region == "" || ville == "") {
+                alert("Veuillez remplir tous les champs.");
+                return false;
+            }
+
+            var whatsappRegex = /^237(6|2|5)[0-9]{7}$/;
+            if (!whatsappRegex.test(whatsapp)) {
+                alert("Le numéro WhatsApp doit être camerounais et appartenir à l'un des opérateurs téléphoniques MTN ou Orange.");
+                return false;
+            }
+
+            $.ajax({
+                url: "https://script.google.com/macros/s/AKfycbyjJrJZzJZzJZzJZz/exec",
+                data: {
+                    "code": code,
+                    "prenom": prenom,
+                    "whatsapp": whatsapp,
+                    "region": region,
+                    "ville": ville
+                },
+                type: "POST",
+                dataType: "xml",
+                success: function(response) {
+                    window.location.href = "https://talou-services.github.io/yengni/";
+                },
+                error: function(response) {
+                    alert("Une erreur s'est produite lors de l'enregistrement des données.");
+                }
+            });
+
+            return false;
+        }
+    </script>
+</head>
+<body>
+    <h1>Inscription</h1>
+    <form name="inscription" onsubmit="return validateForm()">
+        <label for="code">Code d'invitation :</label>
+        <input type="text" id="code" name="code"><br><br>
+
+        <label for="prenom">Prénom :</label>
+        <input type="text" id="prenom" name="prenom"><br><br>
+
+        <label for="whatsapp">Numéro WhatsApp :</label>
+        <input type="tel" id="whatsapp" name="whatsapp"><br><br>
+
+        <label for="region">Région :</label>
+        <select id="region" name="region">
+            <option value="">Choisir une région</option>
+            <option value="Adamaoua">Adamaoua</option>
+            <option value="Centre">Centre</option>
+            <option value="Est">Est</option>
+            <option value="Extrême-Nord">Extrême-Nord</option>
+            <option value="Littoral">Littoral</option>
+            <option value="Nord">Nord</option>
+            <option value="Nord-Ouest">Nord-Ouest</option>
+            <option value="Ouest">Ouest</option>
+            <option value="Sud">Sud</option>
+            <option value="Sud-Ouest">Sud-Ouest</option>
+        </select><br><br>
+
+        <label for="ville">Ville de résidence :</label>
+        <input type="text" id="ville" name="ville"><br><br>
+
+        <input type="submit" value="S'inscrire">
+    </form>
+</body>
+</html>
